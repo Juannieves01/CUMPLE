@@ -671,6 +671,76 @@ html, body {
   0%,100% { box-shadow: 0 0 0 rgba(212,168,67,0); }
   50%     { box-shadow: 0 0 24px rgba(212,168,67,0.5); }
 }
+
+/* ─── RSVP BUTTON ─── */
+.rsvp-confirm-box {
+  width: 100%;
+  margin: 16px 0 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  animation: riseIn 1s 3.3s ease forwards;
+}
+.rsvp-confirm-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(37,128,36,0.25), rgba(37,128,36,0.15));
+  border: 1.5px solid rgba(37,180,36,0.5);
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.rsvp-confirm-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(37,180,36,0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.rsvp-confirm-btn:hover::before,
+.rsvp-confirm-btn:active::before { opacity: 1; }
+.rsvp-confirm-btn:active { transform: scale(0.98); }
+.rsvp-btn-icon { font-size: 22px; }
+.rsvp-btn-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.rsvp-btn-title {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #7ddc7d;
+  text-transform: uppercase;
+}
+.rsvp-btn-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: rgba(125,220,125,0.65);
+  margin-top: 1px;
+}
+.rsvp-note {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: rgba(212,168,67,0.4);
+  letter-spacing: 1px;
+  text-align: center;
+}
+
 </style>
 </head>
 <body>
@@ -778,6 +848,20 @@ html, body {
       con los que uno quiere de verdad."</p>
     </div>
 
+
+    <!-- CONFIRMAR ASISTENCIA -->
+    <div class="rsvp-confirm-box">
+      <a class="rsvp-confirm-btn" id="rsvpBtn" href="#" onclick="confirmarAsistencia(event)">
+        <span class="rsvp-btn-icon">📲</span>
+        <div class="rsvp-btn-text">
+          <span class="rsvp-btn-title">Confirmar Asistencia</span>
+          <span class="rsvp-btn-sub">Enviar por WhatsApp a Edwin</span>
+        </div>
+        <span class="rsvp-btn-icon">🥃</span>
+      </a>
+      <div class="rsvp-note">Se abrirá WhatsApp con tu confirmación</div>
+    </div>
+
     <!-- RSVP -->
     <div class="rsvp-footer">
       <div class="rsvp-line"></div>
@@ -857,6 +941,33 @@ function togglePlay() {
       setPlaying(true);
     }
   }
+}
+
+
+/* ── CONFIRMAR ASISTENCIA ── */
+function confirmarAsistencia(e) {
+  e.preventDefault();
+
+  var nombre = prompt('¿Cuál es tu nombre completo?');
+  if (!nombre || nombre.trim() === '') return;
+
+  var acomp = prompt('¿Cuántos acompañantes llevas? (escribe 0 si vas solo)');
+  if (acomp === null) return;
+  acomp = parseInt(acomp) || 0;
+
+  var total = acomp === 0
+    ? 'Solo yo (' + nombre.trim() + ')'
+    : nombre.trim() + ' + ' + acomp + (acomp === 1 ? ' acompañante' : ' acompañantes');
+
+  var msg = '🤠 *CONFIRMACIÓN DE ASISTENCIA* 🥃%0A%0A'
+    + '🎉 *Cumpleaños de Edwin Idarraga*%0A'
+    + '📅 Sábado 4 de Abril%0A'
+    + '📍 Finca La Mexicana%0A%0A'
+    + '✅ *Confirmo mi asistencia*%0A'
+    + '👤 ' + encodeURIComponent(total);
+
+  var url = 'https://wa.me/573174882762?text=' + msg;
+  window.open(url, '_blank');
 }
 
 /* ── BOKEH ── */
