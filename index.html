@@ -680,8 +680,9 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  opacity: 0;
-  animation: riseIn 1s 3.3s ease forwards;
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
 }
 .rsvp-confirm-btn {
   display: flex;
@@ -959,12 +960,12 @@ function confirmarAsistencia(e) {
     ? 'Solo yo (' + nombre.trim() + ')'
     : nombre.trim() + ' + ' + acomp + (acomp === 1 ? ' acompañante' : ' acompañantes');
 
-  var msg = '🤠 *CONFIRMACIÓN DE ASISTENCIA* 🥃%0A%0A'
-    + '🎉 *Cumpleaños de Edwin Idarraga*%0A'
-    + '📅 Sábado 4 de Abril%0A'
-    + '📍 Finca La Mexicana%0A%0A'
-    + '✅ *Confirmo mi asistencia*%0A'
-    + '👤 ' + encodeURIComponent(total);
+  var linea1  = encodeURIComponent('*CONFIRMACIÓN DE ASISTENCIA*');
+  var linea2  = encodeURIComponent('*Cumpleaños de Edwin Idarraga*');
+  var linea3  = encodeURIComponent('Sabado 4 de Abril - Finca La Mexicana');
+  var linea4  = encodeURIComponent('*Confirmo mi asistencia*');
+  var linea5  = encodeURIComponent(total);
+  var msg = linea1 + '%0A%0A' + linea2 + '%0A' + linea3 + '%0A%0A' + linea4 + '%0A' + linea5;
 
   var url = 'https://wa.me/573174882762?text=' + msg;
   window.open(url, '_blank');
